@@ -1,0 +1,25 @@
+<package>
+  <description brief="smart_hydra_teleop">
+
+     smart_hydra_teleop
+
+  </description>
+  <author>Calder Phillips-Grafflin</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/smart_hydra_teleop</url>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+  <depend package="std_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="tf"/>
+  <depend package="simple_robot_kinematics"/>
+  <depend package="pr2_controllers_msgs"/>
+  <depend package="actionlib"/>
+  <depend package="sensor_msgs"/>
+  <depend package="trajectory_msgs"/>
+  <depend package="kinematics_msgs"/>
+
+</package>
+
+
