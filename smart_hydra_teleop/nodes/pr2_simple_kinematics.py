@@ -9,7 +9,7 @@
 #                                                #
 ##################################################
 
-import roslib; roslib.load_manifest('simple_robot_kinematics')
+import roslib; roslib.load_manifest('smart_hydra_teleop')
 import rospy
 import math
 import random
