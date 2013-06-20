@@ -69,6 +69,8 @@ class SmartHydraTeleop:
         #Set up the publishers
         self.base_pub = rospy.Publisher('base_controller/command', Twist)
         self.marker_pub = rospy.Publisher("smart_hydra_teleop/markers", MarkerArray)
+        #Set up the arm IK clients
+        rospy.loginfo("Starting left & right arm IK clients...")
         self.left_arm_kinematics = pr2_simple_kinematics.SimpleLeftArmKinematics()
         self.right_arm_kinematics = pr2_simple_kinematics.SimpleRightArmKinematics()
         rospy.loginfo("Kinematics clients loaded")
@@ -474,7 +476,32 @@ class SmartHydraTeleop:
         cmd.pose.orientation.y = paddle.transform.rotation.y
         cmd.pose.orientation.z = paddle.transform.rotation.z
         cmd.pose.orientation.w = paddle.transform.rotation.w
-        return cmd
+        return self.clip_to_arm_bounds(cmd, arm_code)
+
+    def clip_to_arm_bounds(self, arm_target, arm_code):
+        max_up = 0.5
+        max_down = -0.8
+        max_left = 1.2
+        max_right = -1.2
+        max_backward = -0.25
+        max_forward = 1.0
+        if (arm_code == 0):
+            max_right = -1.0
+        elif (arm_code == 1):
+            max_left = 1.0
+        if (arm_target.pose.position.x > max_forward):
+            arm_target.pose.position.x = max_forward
+        elif (arm_target.pose.position.x < max_backward):
+            arm_target.pose.position.x = max_backward
+        if (arm_target.pose.position.y > max_left):
+            arm_target.pose.position.y = max_left
+        elif (arm_target.pose.position.y < max_right):
+            arm_target.pose.position.y = max_right
+        if (arm_target.pose.position.z > max_up):
+            arm_target.pose.position.z = max_up
+        elif (arm_target.pose.position.z < max_down):
+            arm_target.pose.position.z = max_down
+        return arm_target
 
 if __name__ == '__main__':
     #Get parameters
